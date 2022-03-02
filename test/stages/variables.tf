@@ -1,50 +1,61 @@
+variable "region"{
+  type = string
+  default ="ap-south-1" 
+  description = "Please set the region where the resouces to be created "
+}
 
-# Resource Group Variables
+variable "access_key"{
+  type = string
+}
+variable "secret_key"{
+  type = string
+}
+
+variable "provision"{
+    type = bool
+    description = "Provision to true or false"
+    default = false
+}
+
+variable "name" {
+  type        = string
+  description = "The name of the IGW instance"
+  default     = "" 
+}
+
+
+variable "name_prefix"{
+    type = string
+    description = "Prefix to be added to the names of resources which are being provisioned"
+    default = "swe"
+}
+
 variable "resource_group_name" {
   type        = string
-  description = "Existing resource group where the IKS cluster will be provisioned."
+  description = "The name of the resource group where the VPC is deployed. On AWS this value becomes a tag."
+  default     = "default"
 }
 
-variable "ibmcloud_api_key" {
+variable "_count" {
+  type = number
+  description = "Number of resources to be provisioned"
+  default = 1
+  
+}
+variable "connectivity_type" {
   type        = string
-  description = "The api key for IBM Cloud access"
+  description = "(Optional) Connectivity type for the gateway. Valid values are private and public. Defaults to public."
+  default     = "public"  
+  
 }
 
-variable "region" {
+variable "allocation_id" {
   type        = string
-  description = "Region for VLANs defined in private_vlan_number and public_vlan_number."
+  description = "(Optional) The Allocation ID of the Elastic IP address for the gateway. Required for connectivity_type of public"
+  
 }
-
-variable "namespace" {
+variable "subnet_id" {
   type        = string
-  description = "Namespace for tools"
-}
-
-variable "cluster_name" {
-  type        = string
-  description = "The name of the cluster"
-  default     = ""
-}
-
-variable "cluster_type" {
-  type        = string
-  description = "The type of cluster that should be created (openshift or kubernetes)"
-}
-
-variable "cluster_exists" {
-  type        = string
-  description = "Flag indicating if the cluster already exists (true or false)"
-  default     = "true"
-}
-
-variable "name_prefix" {
-  type        = string
-  description = "Prefix name that should be used for the cluster and services. If not provided then resource_group_name will be used"
-  default     = ""
-}
-
-variable "vpc_cluster" {
-  type        = bool
-  description = "Flag indicating that this is a vpc cluster"
-  default     = false
+  description = "(Required) The Subnet ID of the subnet in which to place the gateway."
+  
 }
