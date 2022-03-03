@@ -2,8 +2,16 @@
 SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
 echo "SCRIPT_DIR: ${SCRIPT_DIR}"
 
-export VPC_ID=$(terraform output -json | jq -r '."vpc_id".value')
-export NGW_ID=$(terraform output -json | jq -r '.ngw_id".value')
+#Add this to resolve  jq cmd not found error at runtime
+BIN_DIR=$(cat .bin_dir)
+cat .bin_dir
+
+
+#export VPC_ID=$(terraform output -json | jq -r '."vpc_id".value')
+#export NGW_ID=$(terraform output -json | jq -r '.ngw_id".value')
+export VPC_ID=$(terraform output -json | "${BIN_DIR}/jq" -r '."vpc_id".value')
+export NGW_ID=$(terraform output -json | "${BIN_DIR}/jq" -r '.ngw_id".value')
+
 REGION=$(cat terraform.tfvars | grep -E "^region" | sed "s/region=//g" | sed 's/"//g')
 
 echo "VPC_ID: ${VPC_ID}"
