@@ -11,7 +11,7 @@ cat .bin_dir
 #export NGW_ID=$(terraform output -json | jq -r '.ngw_id".value')
 export VPC_ID=$(terraform output -json | ${BIN_DIR}/jq -r ."vpc_id".value)
 export NGW_ID=$(terraform output -json | ${BIN_DIR}/jq -r  ."ngw_id".value)
-
+export SUBNET_ID=$(terraform output -json | ${BIN_DIR}/jq -r  ."subnet_id".value)
 REGION=$(cat terraform.tfvars | grep -E "^region" | sed "s/region=//g" | sed 's/"//g')
 
 echo "VPC_ID: ${VPC_ID}"
