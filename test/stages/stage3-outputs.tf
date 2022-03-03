@@ -1,6 +1,6 @@
-# output "vpc_id" {
-#     value = module.dev_vpc.vpc_id
-# }
+output "vpc_id" {
+    value = module.dev_vpc.vpc_id
+}
 output "ngw_id" {   
     value = module.dev_ngw.ngw_id 
 }
@@ -32,7 +32,7 @@ resource null_resource write_outputs {
     environment = {
       OUTPUT = jsonencode({
         # vpc_name=module.dev_vpc.vpc[0].tags["Name"]
-        # vpc_id= module.dev_vpc.vpc_id
+        vpc_id= module.dev_vpc.vpc_id
         ngw_id= module.dev_ngw.ngw_id  
         allocation_id= module.dev_ngw.allocation_id    
         subnet_id= module.dev_ngw.subnet_id    

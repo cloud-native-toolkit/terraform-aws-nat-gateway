@@ -9,8 +9,8 @@ cat .bin_dir
 
 #export VPC_ID=$(terraform output -json | jq -r '."vpc_id".value')
 #export NGW_ID=$(terraform output -json | jq -r '.ngw_id".value')
-export VPC_ID=$(terraform output -json | ${BIN_DIR}/jq -r '."vpc_id".value')
-export NGW_ID=$(terraform output -json | ${BIN_DIR}/jq -r '.ngw_id".value')
+export VPC_ID=$(terraform output -json | ${BIN_DIR}/jq -r ."vpc_id".value)
+export NGW_ID=$(terraform output -json | ${BIN_DIR}/jq -r  ."ngw_id".value)
 
 REGION=$(cat terraform.tfvars | grep -E "^region" | sed "s/region=//g" | sed 's/"//g')
 
