@@ -1,6 +1,7 @@
 output "vpc_id" {
     value = module.dev_vpc.vpc_id
 }
+
 output "vpc_name" {
     value = module.dev_vpc.vpc_name
 }
@@ -51,11 +52,13 @@ output "priv_ngw_private_ip" {
 }
 output "priv_ngw_public_ip" {    
     value = module.dev_priv_ngw.public_ip 
+
     description = "The public IP address of the NAT Gateway."
 }
 
 resource null_resource write_outputs {
   provisioner "local-exec" {
+
     command = "echo \"$${OUTPUT}\" > ngw-output.json"
     environment = {
       OUTPUT = jsonencode({
@@ -66,6 +69,7 @@ resource null_resource write_outputs {
         public_ip= module.dev_pub_ngw.public_ip[0]
         pri_ngw_id= module.dev_priv_ngw.ngw_id[0]
         pri_subnet_id= module.dev_priv_ngw.subnet_ids[0]
+
       })
     }
   }

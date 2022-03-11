@@ -9,6 +9,7 @@ variable "access_key"{
 }
 variable "secret_key"{
   type = string
+
 }
 
 variable "cloud_provider" {
@@ -67,7 +68,7 @@ variable "connectivity_type" {
 #   default = ""
 # }
 
-/***/
+
 variable "instance_tenancy" {
   type        = string
   description = "Instance is shared / dedicated, etc. #[default, dedicated, host]"
@@ -112,4 +113,5 @@ variable "acl_rules" {
 variable "gateways_count" {
   type = number
   default = 0
+
 }

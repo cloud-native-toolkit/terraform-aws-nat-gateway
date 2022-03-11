@@ -3,9 +3,11 @@ locals{
   resource_group_name = var.resource_group_name != "" && var.resource_group_name != null ? var.resource_group_name : "default"
   ngw_name  = var.name != "" ? var.name : "${local.prefix_name}-ngw"
 
+
   ngw_id = var.provision ? aws_nat_gateway.nat_gw.*.id : null
   
   provision_eip = var.connectivity_type == "public" && var.provision && var._count > 0 ?  true : false
+
   allocation_id =  local.provision_eip ? aws_eip.nat_gw_eip[0].id : var.allocation_id
   
 }
@@ -23,6 +25,7 @@ resource null_resource print_names {
   provisioner "local-exec" {
     command = "echo 'ngw_name name: ${local.ngw_name}, Provision EIP: ${local.provision_eip}'"
   }
+
   provisioner "local-exec" {
     command = "echo 'connectivity_type: ${var.connectivity_type}, Subnet IDs : ${var.subnet_ids[0]}'"
   }
@@ -49,7 +52,11 @@ resource "aws_eip" "nat_gw_eip" {
       Name = "${local.prefix_name}-ngw-eip-${count.index}",
       ResourceGroup = local.resource_group_name
     }   
+
 }
+
+
+
 
 
 

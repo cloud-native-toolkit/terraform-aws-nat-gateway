@@ -1,3 +1,4 @@
+
 module "dev_pub_subnet" {
   source  = "github.com/cloud-native-toolkit/terraform-aws-vpc-subnets"
   provision=var.provision
@@ -12,4 +13,5 @@ module "dev_pub_subnet" {
   map_customer_owned_ip_on_launch = false
   map_public_ip_on_launch         = false
   acl_rules = var.acl_rules
+
 }

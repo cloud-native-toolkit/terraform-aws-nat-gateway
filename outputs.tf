@@ -3,6 +3,7 @@ output "ngw_id" {
 }
 
 output "allocation_id" {   
+
     value = aws_nat_gateway.nat_gw[*].allocation_id
     description = "The Allocation ID of the Elastic IP address for the gateway."
 }
