@@ -37,11 +37,6 @@ output "priv_ngw_id" {
     value = module.dev_priv_ngw.ngw_id
 }
 
-output "priv_allocation_id" {   
-    value =  module.dev_priv_ngw.allocation_id 
-    description = "The Allocation ID of the Elastic IP address for the gateway."
-}
- 
 output "priv_ngw_subnet_id" {   
     value = module.dev_priv_ngw.subnet_ids     
 }
