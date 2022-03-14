@@ -45,12 +45,12 @@ provider "aws" {
 module "dev_ngw" {
 
   source = "github.com/cloud-native-toolkit/terraform-aws-nat-gateway"
-    _count = var.cloud_provider == "aws"  ? var.gateways_count : 0
+    _count = 1
     provision = var.provision
     resource_group_name = var.resource_group_name
     name_prefix = var.name_prefix
     connectivity_type = var.connectivity_type
-    subnet_ids = module.dev_pub_subnet.subnet_ids   
-  
+    subnet_ids = module.dev_pub_subnet.subnet_ids    
+
 }
 ```
