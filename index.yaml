@@ -2,8 +2,81 @@ name: aws-nat-gateway
 type: terraform
 description: Module to provision nat-gateway on aws
 tags:
-  - tools
-  - devops
-versions: []
+  - infrastructure
+  - networking
+  - aws
+versions:
+  - platforms: []
+    providers:
+      - name: aws
+        source: hashicorp/aws
+    dependencies:
+      - id: aws-vpc
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-aws-vpc
+            version: '>= 1.0.0'
+      - id: aws-vpc-subnets
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-aws-vpc-subnets
+            version: '>= 1.0.0'
+    variables:
+      - name: name
+        type: string
+        description: The name of the IGW instance
+        default: '"" '
+      - name: name_prefix
+        type: string
+        description: >-
+          Prefix to be added to the names of resources which are being
+          provisioned
+        default: swe
+      - name: resource_group_name
+        type: string
+        description: >-
+          The name of the resource group where the VPC is deployed. On AWS this
+          value becomes a tag.
+        default: default
+      - name: provision
+        type: bool
+        description: >-
+          Flag to determine whether to provision Internet gateway or not.
+          Defautl set to true
+        default: true
+      - name: _count
+        type: number
+        description: Number of resources to be provisioned
+        default: '0'
+      - name: connectivity_type
+        type: string
+        description: >-
+          (Optional) Connectivity type for the gateway. Valid values are private
+          and public. Defaults to public.
+        default: '"public"  '
+        important: true
+      - name: allocation_id
+        type: string
+        description: >-
+          (Optional) The Allocation ID of the Elastic IP address for the
+          gateway. Required for connectivity_type of public
+        default: ''
+      - name: subnet_ids
+        type: list(string)
+        description: >-
+          (Required) The Subnet ID of the subnet in which to place the
+          gateway.  
+        moduleRef:
+          id: aws-vpc-subnets
+          output: subnet_ids
+    version: v1.0.2
+    outputs:
+      - name: 'ngw_id   '
+      - name: 'allocation_id   '
+        description: The Allocation ID of the Elastic IP address for the gateway.
+      - name: 'subnet_ids   '
+      - name: 'network_interface_id    '
+      - name: 'private_ip    '
+        description: The private IP address of the NAT Gateway.
+      - name: 'public_ip    '
+        description: The public IP address of the NAT Gateway.
 cloudProvider: aws
 id: github.com/cloud-native-toolkit/terraform-aws-nat-gateway
