@@ -52,47 +52,14 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           TF_VAR_enabled: ${{ matrix.enabled }}
 
+
+
   verifyMetadata:
-    runs-on: ubuntu-latest
+    uses: cloud-native-toolkit/action-workflows/.github/workflows/verify-module-metadata.yaml@v1
 
-    env:
-      DIST_DIR: ./dist
-      PUBLISH_BRANCH: gh-pages
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.release.tag_name }}
-
-      - uses: actions/setup-node@v2-beta
-        with:
-          node-version: '14'
-
-      - name: Build catalog
-        uses: cloud-native-toolkit/action-module-catalog@v1
-        with:
-          tagName: ${{ github.event.release.tag_name }}
-          distDir: ${{ env.DIST_DIR }}
-          publishBranch: ${{ env.PUBLISH_BRANCH }}
-
-      - name: Verify module schema
-        run: |
-          npm i -g ajv-cli
-          curl -LsO https://modules.cloudnativetoolkit.dev/schemas/module.json
-          ajv test -s module.json -d ${{ env.DIST_DIR }}/index.yaml --valid
   release:
-    needs: [verify, verifyMetadata]
-    runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' }}
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Drafts your next Release notes as Pull Requests are merged into "main"
-      - uses: release-drafter/release-drafter@v5
-        with:
-          # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
-          config-name: release-drafter.yaml
-          publish: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+    needs: [ verify, verifyMetadata ]
+    uses: cloud-native-toolkit/action-workflows/.github/workflows/release-module.yaml@v1
+    secrets:
+      TOKEN: ${{ secrets.TOKEN }}
